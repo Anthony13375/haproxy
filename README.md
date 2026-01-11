@@ -23,31 +23,8 @@
 3. HAproxy должен балансировать только тот http-трафик, который адресован домену example.local
 * На проверку направьте конфигурационный файл haproxy, скриншоты, где видно перенаправление запросов на разные серверы при обращении к HAProxy c использованием домена example.local и без него.
 
+[Конфиг](https://github.com/Anthony13375/haproxy/blob/main/configs/haproxy_http.cfg)
 
-```
-Что добавил в дефолтный конфигурационный файл:
-listen stats
-	bind 			:888
-	mode 			http			
-	stats			enable
-	stats uri		/stats
-	stats refresh 		5s
-	stats realm		Haproxy\ Statistics
-frontend acl
-	mode http
-	bind :8088
-	acl ACL_example.local hdr(host) -i example.local
-	use_backend weight_servers if ACL_example.local
-
-backend weight_servers
-	mode http
-	balance roundrobin
-	option httpchk
-	http-check send meth GET uri /index.html
-	server s1 127.0.0.1:8888 check weight 2
-	server s2 127.0.0.1:9999 check weight 3
-	server s3 127.0.0.1:7777 check weight 4
-```
 ![Балансировка](https://github.com/Anthony13375/haproxy/blob/main/img/img3.png)
 ![Балансировка http](https://github.com/Anthony13375/haproxy/blob/main/img/img4.png)
 
