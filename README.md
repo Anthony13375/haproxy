@@ -10,23 +10,8 @@
 3. Настройте балансировку Round-robin на 4 уровне.
 * На проверку направьте конфигурационный файл haproxy, скриншоты, где видно перенаправление запросов на разные серверы при обращении к HAProxy.
 
-```
-Что добавил в дефолтный конфигурационный файл:
-listen stats
-	bind 			:888
-	mode 			http			
-	stats			enable
-	stats uri		/stats
-	stats refresh 		5s
-	stats realm		Haproxy\ Statistics
+[Конфиг](https://github.com/Anthony13375/haproxy/blob/main/configs/haproxy_tcp.cfg)
 
-listen web_tcp
-	bind :1325
-	balance roundrobin
-	server s1 127.0.0.1:8888 check
-	server s2 127.0.0.1:9999 check
-
-```
 ![Балансировка](https://github.com/Anthony13375/haproxy/blob/main/img/img1.png)
 ![Балансировка tcp](https://github.com/Anthony13375/haproxy/blob/main/img/img2.png)
 
